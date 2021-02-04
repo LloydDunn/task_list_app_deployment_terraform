@@ -19,6 +19,7 @@ jobs:
         image: postgres
         env:
           NODE_ENV: test
+          POSTGRES_PASSWORD: youshallnotpass
         ports:
           - 5432:5432
 
