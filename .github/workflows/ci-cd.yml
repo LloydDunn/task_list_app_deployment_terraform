@@ -41,14 +41,17 @@ jobs:
       - name: Install Express dependencies
         run: npm --prefix ./server ci
 
+      - name: Run Linting
+        run: npm --prefix ./server run lint 
+
       - name: Run Migration
         run: npm --prefix ./server run migrate
 
+      - name: Run Seeding
+        run: npm --prefix ./server run seed
+
       - name: Run Express Tests
         run: npm --prefix ./server run coverage
-
-      - name: Run Linting
-        run: npm --prefix ./server run lint 
 
   deploy:
     name: CD Pipeline
