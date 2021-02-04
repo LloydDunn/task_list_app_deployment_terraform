@@ -19,6 +19,8 @@ jobs:
         image: postgres
         env:
           NODE_ENV: test
+        ports:
+          - 5432:5432
 
     steps:
       - name: Check out repository code
