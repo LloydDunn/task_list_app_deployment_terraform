@@ -20,8 +20,8 @@ jobs:
         env:
           NODE_ENV: test
           POSTGRES_PASSWORD: youshallnotpass
-        ports:
-          - 5432:5432
+        # ports:
+        #   - 5432:5432
 
     steps:
       - name: Check out repository code
