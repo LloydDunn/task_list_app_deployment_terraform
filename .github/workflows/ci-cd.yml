@@ -13,8 +13,8 @@ jobs:
     name: CI Pipeline
     runs-on: ubuntu-latest
     container: node:10.18-jessie
-      env:
-        NODE_ENV: test
+      # env:
+      #   NODE_ENV: test
 
     services:
       postgres:
@@ -23,6 +23,7 @@ jobs:
           # POSTGRES_DB:
           # POSTGRES_USER:
           # POSTGRES_PASSWORD: ""
+          NODE_ENV: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
