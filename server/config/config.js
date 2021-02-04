@@ -8,9 +8,9 @@ module.exports = {
     operatorsAliases: false,
   },
   test: {
-    username: 'josue',
-    password: null,
-    database: 'dev_team_tool_test',
+    username: 'test',
+    password: 'postgres',
+    database: 'test_db',
     host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
