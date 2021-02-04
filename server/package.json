@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "NODE_ENV=test jest --detectOpenHandles --coverage --runInBand --forceExit",
-    "coverage": "jest --collectCoverageFrom=./**/*.js --coverage --detectOpenHandles --no-cache --runInBand --forceExit",
+    "coverage": "jest --collectCoverageFrom=./**/*.js --coverage --detectOpenHandles --no-cache --runInBand --forceExit --testTimeout=30000",
     "startProd": "NODE_ENV=prod nodemon .",
     "lint": "eslint './**'",
     "lint:fix": "eslint --fix './**'",
