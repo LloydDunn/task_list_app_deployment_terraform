@@ -15,6 +15,7 @@ describe('/tasks POST', () => {
 
   beforeEach(async () => {
     await taskSeeds.up(db.sequelize.queryInterface, db.Sequelize);
+    console.log('AM I DOING THIS');
   });
 
   afterEach(async () => {
