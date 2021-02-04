@@ -1,4 +1,4 @@
-FROM node:8.11-alpine as node-server
+FROM node:12.0-alpine as node-server
 
 # WORKDIR /usr/src/app
 # RUN ls
