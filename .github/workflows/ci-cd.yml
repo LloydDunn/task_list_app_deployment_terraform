@@ -13,8 +13,6 @@ jobs:
     name: CI Pipeline
     runs-on: ubuntu-latest
     container: node:10.18-jessie
-      # env:
-      #   NODE_ENV: test
 
     services:
       postgres:
