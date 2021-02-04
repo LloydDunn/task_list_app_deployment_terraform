@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  NODE_ENV: test
+
 jobs:
   buildAndTest:
     name: CI Pipeline
@@ -18,7 +21,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          NODE_ENV: test
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
