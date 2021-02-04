@@ -1,6 +1,8 @@
 FROM node:8.11-alpine as node-server
 
 WORKDIR /
+RUN ["echo", "ROOT DIR?"]
+RUN ls
 RUN npm run build:prod
 
 COPY /server /usr/src/app/server
