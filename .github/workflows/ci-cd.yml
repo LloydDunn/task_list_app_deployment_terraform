@@ -22,7 +22,7 @@ jobs:
         image: postgres:alpine
         env:
           POSTGRES_USER: josue
-          POSTGRES_PASSWORD: null
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: dev_team_tool_test
           # POSTGRES_USER: test
           # POSTGRES_PASSWORD: postgres
