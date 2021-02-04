@@ -1,5 +1,5 @@
 FROM node:8.11-alpine as node-server
-# WORKDIR /usr/src/app
+RUN npm run build:prod
 COPY /server /usr/src/app/server
 WORKDIR /usr/src/app/server
 ENV NODE_ENV=prod
