@@ -1,0 +1,57 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "NODE_ENV=test jest --detectOpenHandles --coverage --runInBand --forceExit",
+    "coverage": "jest --collectCoverageFrom=./**/*.js --coverage --detectOpenHandles --no-cache --runInBand --forceExit",
+    "startProd": "NODE_ENV=prod nodemon .",
+    "lint": "eslint './**'",
+    "lint:fix": "eslint --fix './**'",
+    "migrate": "NODE_ENV=test npx sequelize-cli db:migrate",
+    "unmigrate": "NODE_ENV=test npx sequelize-cli db:migrate:undo --config config/config.js",
+    "seed": "NODE_ENV=test npx sequelize-cli db:seed:all",
+    "unseed": "NODE_ENV=test npx sequelize-cli db:seed:undo:all",
+    "migrate:local": "NODE_ENV=global npx sequelize-cli db:migrate --config config/config.js",
+    "unmigrate:local": "NODE_ENV=global npx sequelize-cli db:migrate:undo --config config/config.js",
+    "seed:local": "NODE_ENV=global npx sequelize-cli db:seed:all --config config/config.js",
+    "unseed:local": "NODE_ENV=global npx sequelize-cli db:seed:undo:all --config config/config.js"
+  },
+  "author": "moist <jestfer6@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.1.0",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "sequelize": "^5.19.1",
+    "tedious": "^6.4.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.15.1",
+    "jest": "^24.8.0",
+    "node-mocks-http": "^1.8.0",
+    "pg": "^7.12.1",
+    "sequelize-cli": "^5.5.1",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "app.js",
+      "/node_modules",
+      "/coverage",
+      "/config",
+      "/migrations",
+      "/seeders",
+      "/www",
+      "/models",
+      "/utils"
+    ]
+  }
+}

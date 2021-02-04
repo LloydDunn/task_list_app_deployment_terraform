@@ -1,0 +1,24 @@
+<mat-grid-list [cols]="1" [rowHeight]="250">
+  <mat-grid-tile *ngFor="let task of tasks">
+    <mat-card class="grid-tile">
+      <mat-card-header>
+        <mat-card-title>{{ task.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <div><i>Technologies</i> : {{ task.techStack }}</div>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>
+          {{ task.description }}
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="deleteTask(task.id)">
+          Delete Task
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

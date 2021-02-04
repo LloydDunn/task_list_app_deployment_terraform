@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <span routerLink="/">Tasks Listing App</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="grey" (click)="openTaskDialog()">New Task</button>
+</mat-toolbar>
+
+<mat-card class="grid-tile">
+  <mat-card-title>Navigate to /dashboard to see the list of tasks available.</mat-card-title>
+  <mat-card-content>No tasks available? Get started by creating a New Task!</mat-card-content>
+</mat-card>
+
+<router-outlet></router-outlet>

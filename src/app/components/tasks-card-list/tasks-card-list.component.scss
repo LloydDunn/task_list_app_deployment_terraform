@@ -1,0 +1,10 @@
+mat-card {
+  width: calc(75%);
+  height: calc(100% - 90px);
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
