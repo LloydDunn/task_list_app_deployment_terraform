@@ -9,7 +9,7 @@ FROM node:8.11-alpine as node-server
 COPY / /usr/src/app
 WORKDIR /usr/src/app
 RUN ls
-RUN npm install --production --silent
+RUN npm install
 RUN npm run build:prod
 WORKDIR /usr/src/app/server
 RUN ls
