@@ -15,18 +15,17 @@ jobs:
   buildAndTest:
     name: CI Pipeline
     runs-on: ubuntu-latest
-    # container: node:10.18-jessie
     container: node:alpine
 
     services:
       postgres:
         image: postgres:alpine
-        env:
-          POSTGRES_DB: test_db
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
+        # env:
+        #   POSTGRES_DB: test_db
+        #   POSTGRES_USER: test
+        #   POSTGRES_PASSWORD: postgres
+        # ports:
+        #   - 5432:5432
 
     steps:
       - name: Check out repository code
