@@ -21,8 +21,8 @@ jobs:
       postgres:
         image: postgres:alpine
         env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: null
+          POSTGRES_USER: "test"
+          POSTGRES_PASSWORD: ""
           POSTGRES_DB: test_db
         # ports:
         #   - 5432:5432

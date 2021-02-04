@@ -11,7 +11,7 @@ module.exports = {
     username: 'test',
     password: null,
     database: 'test_db',
-    host: 'localhost',
+    host: '127.0.0.1',
     dialect: 'postgres',
     operatorsAliases: false,
   },
