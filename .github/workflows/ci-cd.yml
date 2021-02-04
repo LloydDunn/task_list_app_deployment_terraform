@@ -15,7 +15,7 @@ jobs:
   buildAndTest:
     name: CI Pipeline
     runs-on: ubuntu-latest
-    container: node:alpine
+    container: node:12
 
     services:
       postgres:
