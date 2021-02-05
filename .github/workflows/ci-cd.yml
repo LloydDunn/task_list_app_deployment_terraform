@@ -66,10 +66,15 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.REGISTRY }}
-          username: ${{ secrets.SERVICE_PRINCIPAL }}
-          password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
+          username: ${{ secrets.SERVICE_PRINCIPAL_CLIENT_ID }}
+          password: ${{ secrets.SERVICE_PRINCIPAL_CLIENT_SECRET }}
       - run: |
           docker build . -t ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}
           docker push ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}
 
-
+      - name: 'Deploy to Web App'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'tasklistingapp'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          image: ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}

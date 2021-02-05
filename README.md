@@ -14,13 +14,15 @@ Feel free to break down and manage the tasks in any way and order you find conve
 
 - Your CI job on GitHub Actions should work out of the blue. However, the CD job won't work as is, why is that?
 - Create an Azure Container Registry under your Azure Resource Group (Use your existing Terraform project to do so!). Also, can you explain to your peers if you've used or come across any similar resource before?
-- Create an Azure Web App service (also using Terraform!) under your Resource Group. Note that you will also need an Azure App Service plan created along with the Azure Web App.
+- Create an Azure Web App service (also using Terraform!) under your Resource Group. Note that you will also need an Azure App Service plan created along with the Azure Web App. Once it is created, what can you see after you access the App Service URL? You can find it on the Azure Portal.
 - Create a [TBC]!!!!!!! X Database instance on Azure (again, use Terraform to achieve this!) under your Resource Group.
 
 ## And what's next?
 
 First of all, congratulations for going through the tasks and completing them. Amazing job! Now it's time to test our CI/CD flows.
+- :pencil2: Discuss in your group: are you able to explain what is happening on the `Dockerfile`?
 - Can you deploy the application on Azure using the existing CI/CD flow?
+- Can you see if your image is on your Azure Container Registry?
 - Is there anything you'd change about the existing setup under `.github/workflows`?
 
 Once the application is successfully deployed, run a test from your client:
@@ -41,3 +43,4 @@ As you can see, in `/server/config/config.js` and also in `/server/app.js` there
 - [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/)
 - [Azure App Service plan overview](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans)
 - [Azure App Service with Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service)
+- [Deploy a custom container to App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-container-github-action?tabs=publish-profile)
