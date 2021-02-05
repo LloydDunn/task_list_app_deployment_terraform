@@ -15,7 +15,7 @@ Feel free to break down and manage the tasks in any way and order you find conve
 - Your CI job on GitHub Actions should work out of the blue. However, the CD job won't work as is, why is that?
 - Create an Azure Container Registry under your Azure Resource Group (Use your existing Terraform project to do so!). Also, can you explain to your peers if you've used or come across any similar resource before?
 - Create an Azure Web App service (also using Terraform!) under your Resource Group. Note that you will also need an Azure App Service plan created along with the Azure Web App. Once it is created, what can you see after you access the App Service URL? You can find it on the Azure Portal.
-- Create a [TBC]!!!!!!! X Database instance on Azure (again, use Terraform to achieve this!) under your Resource Group.
+- Create a PostgreSQL server and a PostgreSQL database on Azure (again, use Terraform to achieve this!) under your Resource Group.
 
 ## And what's next?
 
