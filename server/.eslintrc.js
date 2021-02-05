@@ -9,7 +9,8 @@ module.exports = {
   ],
   rules: {
     "import/no-dynamic-require": 0,
-    "no-param-reassign": 0
+    "no-param-reassign": 0,
+    "no-useless-catch": 0
   },
   env: {
     node: true,
