@@ -6,7 +6,6 @@ RUN npm install
 RUN npm run build:prod
 
 WORKDIR /usr/src/app/server
-RUN ls
 ENV NODE_ENV=prod
 RUN apk --no-cache add --virtual builds-deps build-base python && \
   npm install --production --silent
