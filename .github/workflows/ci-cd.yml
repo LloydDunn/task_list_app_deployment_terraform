@@ -66,8 +66,8 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.REGISTRY }}
-          username: ${{ secrets.SERVICE_PRINCIPAL_CLIENT_ID }}
-          password: ${{ secrets.SERVICE_PRINCIPAL_CLIENT_SECRET }}
+          username: ${{ secrets.REGISTRY_SERVER_USERNAME }}
+          password: ${{ secrets.REGISTRY_SERVER_PASSWORD }}
       - run: |
           docker build . -t ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}
           docker push ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}
