@@ -47,6 +47,15 @@ Now, with all of our resources created, it's time to test our CI/CD flows:
 
 To achieve this, you will need to enable `Admin Access` on your Container Registry service. How can you configure the `secrets` accordingly so that these match the authentication details that should appear now on the Container Registry? Take a look at the CD job more closely.
 
+One more step related to this! Your Web App Service (not only the Service Plan on GitHub Actions) also needs to access ACR and run some Docker commands under the hood. How does it know which details to use?
+
+Well, sometimes a picture is worth a thousand words!
+
+![app-service-configuration](server/assets/app-service-configuration.png?raw=true "app-service-configuration")
+
+And you may be wondering, couldn't this be done altogether in GitHub Actions? 
+Great question! Certainly it could be, if you feel curious, feel free to do some research!
+
 Once the application is successfully deployed, run a test from your client:
 - Can you successfully access the application from the provided URL on Azure?
 
