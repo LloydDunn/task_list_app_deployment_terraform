@@ -12,36 +12,19 @@ You will deploy this application on Azure and share it with our friends! Feel fr
 
 Feel free to break down and manage the tasks in any way and order you find convenient for you as a group and for this project. You could, for example, create a project board on your GitHub forked repository.
 
-### CI job
+### GitHub Action Workflows
 
-- Your CI job on GitHub Actions should work out of the blue. However, the CD job won't work as is, why is that?
-
-### Create an Azure Container Registry
-
-- It should be under your Azure Resource Group (Use your existing Terraform project to do so!). Also, can you explain to your peers if you've used or come across any similar resource before?
-
-### Create an Azure Web App service
-- It should be under your Azure Resource Group (Use your existing Terraform project to do so!). 
-
-Note that you will also need an Azure App Service plan created along with the Azure Web App. Once it is created, what can you see after you access the App Service URL? You can find it on the Azure Portal.
-
-You can find an example in `terraform/web-app-create-example.tf`
-
-### Create a PostgreSQL server and a PostgreSQL database on Azure
-
-- It should be under your Azure Resource Group (Use your existing Terraform project to do so!).
-
-You can find an example in `terraform/pg-create-example.tf`
+The `buildAndTest` job (CI) under `.github/workflows/ci-cd.yml` should work out of the blue. However, the `deploy` (CD) job won't work as is, why is that?
 
 ## And what's next?
 
-First of all, congratulations for going through the tasks and completing them. Amazing job!
+First of all, congratulations for going through all of the previous tasks and completing them. Amazing job!
 
-Now, with all of our resources created, it's time to test our CI/CD flows:
+Now, with all of our resources created on Azure through Terraform, it's time to test our existing CI/CD workflow for the application living in this repository:
 
 - :pencil2: Discuss in your group: are you able to explain what is happening on the `Dockerfile`?
 
-- Can you deploy the application on Azure using the existing CI/CD flow? Observe the `secrets` appearing on the `ci-cd.yml` file on the repository. Your will need to find which `secrets` you need to configure on your repository settings :bulb: Perhaps you need to use the outcome you stored when you created your `Azure Service Plan`. This way you will be able to login into Azure from your CD job.
+- Can you deploy the application on your existing Azure infrastructure using the existing CI/CD flow? Observe the `secrets` appearing on the `ci-cd.yml` file on the repository. Your will need to find which `secrets` you need to configure on your repository settings :bulb: Perhaps you need to use the outcome you stored when you created your `Azure Service Plan`. This way you will be able to login into Azure from your CD job.
 
 - The next step will be to make sure your App Service can authenticate against the private registry you created on Azure, so it can pull the image you built and you can access the application:
 
@@ -76,7 +59,5 @@ As you can see, in `/server/config/config.js` there are some environment variabl
 - [HTTP Headers: Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
 - [Environment variables overview](https://docs.microsoft.com/en-us/powerapps/maker/data-platform/environmentvariables)
 - [Azure: Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
-- [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/)
 - [Azure App Service plan overview](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans)
-- [Azure App Service with Terraform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/app_service)
 - [Deploy a custom container to App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-container-github-action?tabs=publish-profile)
