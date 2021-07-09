@@ -42,17 +42,48 @@ Great question! Certainly it could be, if you feel curious, feel free to do some
 Once the application is successfully deployed, run a test from your client:
 - Can you successfully access the application from the provided URL on Azure?
 
-- Any issues querying the database from the web app? Can you connect to it? How does your deployed web app knows the database connection details? You may also need to take a look at the `Connection security` settings under your Azure Database for PostgreSQL server.
+- Any issues querying the database from the web app? Can you connect to it? How does your deployed web app know about the database connection details? You may also need to take a look at the `Connection security` settings under your Azure Database for PostgreSQL server.
 
- Finally, how could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? You may find some useful information here.
+ Finally, how could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? You may find some useful information on the `server logs`. Can you spot how to access these?
 
  To test all this, once your application is deployed, you can open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`, what's the response you're getting? The aim is to get a `200`. Feel free to create some tasks and to delete those that you do not want on the board any longer!
 
 ## Other important things to consider
 
+### App Service
+
+#### Environment variables
 As you can see, in `/server/config/config.js` there are some environment variables that need to be set for the application to function correctly.
 - Thinking about deploying our application on Azure. Where should these live?
 
+#### 503 HTTP Response: Application Error
+- What does a `503 HTTP Response` mean? It'd be a good idea to expand your knowledge on [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status). You can use this reference article whenever you find a new status code you haven't come across before!
+
+More specifically, regarding a 503 error on your Azure App Service, there's a good [reference article from Azure](https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-http-502-http-503) worth going through.
+
+#### Where to find application logs
+From the article shared just above, is there anything that you found useful?
+
+A really useful resource for debugging Web Applications in Azure is the `Kudu Debug Console`, quickly visited on the reference article shared above.
+
+After you've successfully landed on the Kudu Console view for your app, there's a bunch of information in there, but we're mostly interested in the `Current Docker logs` (we have containerised our application after all!). Now, there are some things we need to find out more about:
+- What is the `_docker.log` file? What sort of information can we extract from it?
+- And what about the `_default_docker.log` file?
+
+As a hint, remember that before we're able to launch the application successfully and see what happens inside the container, our `Azure App Service` should be able to pull the image from our `Container Registry`.
+
+You should have all of the information that you need in these two files and within your Azure database `server logs`. However, if you have any questions, please check with your peers or ask your coach eventually!
+
+You got this! :star2:
+
+### Database
+
+Whart sort of resources can connect to your database on Azure at the moment?
+- Is it none by default? 
+- Only other Azure resources? 
+
+It'd be good for your understanding to research this a bit more as well! This will be useful especially if you'd like to connect to the Azure database from your preferred GUI (`TablePlus` for instance).
+- How can you open connections from external resources if you find out you can't connect to it? We may have to jump over those :bricks:
 
 ## Resources
 
