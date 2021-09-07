@@ -1,0 +1,89 @@
+stages:
+  - buildAndTest
+  - push
+  - deploy
+
+services: 
+  - postgres:alpine
+
+variables:
+  NODE_ENV: test
+  POSTGRES_DB: test_db
+  POSTGRES_USER: test
+  POSTGRES_PASSWORD: postgres
+
+  # Disables TLS, see https://gitlab.com/gitlab-org/gitlab-runner/-/issues/27300
+  DOCKER_TLS_CERTDIR: "" 
+
+  # When you use the dind service, you must instruct Docker to talk with
+  # the daemon started inside of the service. The daemon is available
+  # with a network connection instead of the default
+  # /var/run/docker.sock socket. 
+  # The 'docker' hostname is the alias of the service container as described at
+  # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#accessing-the-services.
+  DOCKER_HOST: "tcp://docker:2375"
+
+buildAndTest:
+  stage: buildAndTest
+  image: node:12.0-alpine
+  script:
+    - echo "Install Angular dependencies"
+    - npm ci
+    - echo "Run Angular tests"
+    - npm run test:coverage
+    - echo "Install Express dependencies"
+    - npm --prefix ./server ci
+    - echo "Run Express linting"
+    - npm --prefix ./server run lint
+    - echo "Run migrations"
+    - npm --prefix ./server run migrate
+    - echo "Run Express tests"
+    - npm --prefix ./server run coverage
+
+push:
+  stage: push
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  
+  # "Docker in Docker" https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+  # Ideally we would pin this to a version but since the convenience script
+  # below isn't pinned we're not doing it here either.
+  services:
+    - docker:dind
+  
+  # For simplicity, using the convenience script to install Docker.
+  # https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script
+  # Note that this means that the version of Docker installed might change unexpectedly
+  # with new releases and not match the one in services, which could cause unforeseen issues.
+  before_script:
+    - curl -fsSL https://get.docker.com -o get-docker.sh 
+    - sh ./get-docker.sh
+    - docker --version
+  script:
+    - echo 'Login via AWS CLI'
+    - aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin "$CONTAINER_REGISTRY_URL"
+    - echo 'Build and push image'
+    - docker build --tag "$CONTAINER_REGISTRY_URL/$CONTAINER_REPOSITORY_NAME:$CI_COMMIT_SHA" .
+    - docker push "$CONTAINER_REGISTRY_URL/$CONTAINER_REPOSITORY_NAME:$CI_COMMIT_SHA"
+
+deploy:
+    stage: deploy
+    image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+    before_script:
+      - sh ./aws/create_dockerrun.sh
+    script:
+      - echo "Copying Dockerrun.aws.json to S3"
+      - aws s3 cp Dockerrun.aws.json "s3://$S3_DEPLOY_BUCKET"
+      - echo "Deploying new application version"
+      - >
+        aws elasticbeanstalk create-application-version
+        --application-name "$ELASTIC_BEANSTALK_APP_NAME"
+        --version-label "$CI_COMMIT_SHA"
+        --source-bundle S3Bucket="$S3_DEPLOY_BUCKET",S3Key="Dockerrun.aws.json"
+        --no-auto-create-application
+      - >
+        aws elasticbeanstalk update-environment
+        --application-name "$ELASTIC_BEANSTALK_APP_NAME"
+        --environment-name "$ELASTIC_BEANSTALK_ENV_NAME"
+        --version-label "$CI_COMMIT_SHA"
+
+
