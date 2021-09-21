@@ -62,7 +62,7 @@ Check out some of the tips in the next sections to help with investigating that.
 What do HTTP status codes that start with 5 mean? You might encounter some of them as you work on getting this application up and running.
 
 It'd be a good idea to expand your knowledge on [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status).
-You can use this reference article whenever you find a new status code you haven't come across before!.
+You can use this reference article whenever you find a new status code you haven't come across before!
 
 ### Where to find application logs
 
