@@ -20,8 +20,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
-    // TODO Is there a reason we don't hardcode this?
-    dialect: process.env.DB_DIALECT,
+    dialect: 'postgres',
     dialectOptions: {
       options: {
         encrypt: true,
