@@ -6,7 +6,16 @@ You will deploy this application on AWS and share it with our friends! Feel free
 
 ## Application Architecture
 
-![Task Listing App Architecture](server/assets/task-listing-app-architecture.jpg?raw=true "Task Listing App Architecture")
+```mermaid
+graph LR
+    GitLab(GitLab repo)--> CICD(GitLab CI/CD)
+    CICD --> ECR(Amazon Elastic Container Registry)
+    CICD --> S3(Amazon S3 Deploy bucket)
+    ECR --> EB(Amazon Elastic Beanstalk App)
+    S3 --> EB
+    EB --> DB[(Amazon RDS)]
+```
+
 
 ## Tasks
 
@@ -38,16 +47,15 @@ Once the application is successfully deployed, run a test from your client:
 - Can you successfully access the application from the provided URL on AWS?
 - Any issues querying the database from the web app? Can you connect to it? How does your deployed web app know about the database connection details?
 
- Finally, how could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? You may find some useful information in the `server logs` ...
+Finally, how could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? You may find some useful information in the `server logs` ...
 
- To test all this, once your application is deployed, you can open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`, what's the response you're getting? 
+To test all this, once your application is deployed, you can open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`, what's the response you're getting? 
  
- The aim is to get a `200` but that's probably not what's happening right now.
+The aim is to get a `200` but that's probably not what's happening right now.
+Check out some of the tips in the next sections to help with investigating that.
 
- Check out some of the tips in the next sections to help with investigating that.
 
-
-## Some tips
+## A few tips
 
 ### 5xx HTTP Responses
 
