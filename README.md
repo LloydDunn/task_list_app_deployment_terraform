@@ -34,7 +34,9 @@ Now, with all of our resources created on AWS through Terraform, it's time to te
 
 - :pencil2: Discuss in your group: are you able to explain what is happening on the `Dockerfile`?
 
-- Can you deploy the application on your existing AWS infrastructure using the existing CI/CD flow? Observe the [variables](https://docs.gitlab.com/ee/ci/variables/) appearing on the `ci-cd.yml` file on the repository. You will need to figure out what to set these variables to. 
+- Can you deploy the application on your existing AWS infrastructure using the existing CI/CD flow? Observe the [variables](https://docs.gitlab.com/ee/ci/variables/) appearing on the `ci-cd.yml` file on the repository. You will need to figure out what to set these variables to.
+
+- Are there any other missing credentials?
 
 :question: Check your understanding. Can you spot which line in the CI-CD pipeline grants GitLab access to push to your private container registry?
 
