@@ -36,7 +36,7 @@ Now, with all of our resources created on AWS through Terraform, it's time to te
 
 - Can you deploy the application on your existing AWS infrastructure using the existing CI/CD flow? Observe the [variables](https://docs.gitlab.com/ee/ci/variables/) appearing on the `ci-cd.yml` file on the repository. You will need to figure out what to set these variables to.
 
-- Are there any other missing credentials?
+- Are there any other missing credentials you might have to provide to your pipeline in order to get it to work?
 
 :question: Check your understanding. Can you spot which line in the CI-CD pipeline grants GitLab access to push to your private container registry?
 
@@ -47,15 +47,25 @@ If you're having trouble with getting deployment to work, check out some of the 
 Once the application is successfully deployed, run a test from your client:
 
 - Can you successfully access the application from the provided URL on AWS?
-- Any issues querying the database from the web app? Can you connect to it? How does your deployed web app know about the database connection details?
+- Any issues querying the database from the web app? Can you connect to it?
+- Does your deployed web app actually have a way of knowing about the database connection details right now?
 
-Finally, how could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? You may find some useful information in the `server logs` ...
 
-To test all this, once your application is deployed, you can open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`, what's the response you're getting? 
- 
-The aim is to get a `200` but that's probably not what's happening right now.
-Check out some of the tips in the next sections to help with investigating that.
+### Getting visibility 
 
+How could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? 
+
+<details>
+<summary> :thinking_face: <b>Open me once you've brainstormed some ideas</b></summary>
+
+You could open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`. What's the response you're getting?
+The aim is to get a `200` response but that's probably not what's happening right now.
+
+You may also find some useful information in the `server logs` ...
+
+</details>
+
+The next section has some more useful pointers.
 
 ## A few tips
 
@@ -79,7 +89,9 @@ Or, if you've already deployed it but you found problems when testing it manuall
 <details>
 <summary> :thinking_face: <b>Click here for some hints</b></summary>
 
-Have a look at the `eb-engine.log` file and the log files under `/var/log/eb-docker/containers/eb-current-app/`
+Use the [Elastic Beanstalk docs on logging](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.logging.html) to help you figure out which logs contain which information.
+
+In particular, have a look at the `eb-engine.log` file and the log files under `/var/log/eb-docker/containers/eb-current-app/`.
 
 What sort of information can we extract from them? Which parts of the system emit these logs?
 
