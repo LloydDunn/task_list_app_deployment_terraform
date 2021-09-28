@@ -106,10 +106,10 @@ You got this! :star2:
 
 If you've deployed the app and tried creating tasks, you've probably run into some 5xx errors. Perhaps you also noticed in the application logs that the app is having problems connecting to the database.
 
-> :warning: If you haven't, now would be a good time to pause reading and try and spot these errors for yourself!
+> :warning: If you haven't, stop reading and try and spot these errors for yourself!
 
 There is indeed some stuff missing from our configuration to get that working.
-Now would be a good time to get back to your Trello board and have a look at the remaining 
+Now would be a good time to get back to your Trello board and have a look at the remaining tasks.
 
 #### Environment variables
 
