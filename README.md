@@ -32,12 +32,16 @@ To achieve this, you will need to enable `Admin Access` on your Container Regist
 
 One more step related to this! Your Web App Service (not only the Service Plan on GitHub Actions) also needs to access ACR and run some Docker commands under the hood. How does it know which details to use?
 
-Well, sometimes a picture is worth a thousand words!
+There are a couple of resources linked below that may help you figure out how to configure this in the Azure Portal.
 
-![app-service-configuration](server/assets/app-service-configuration.png?raw=true "app-service-configuration")
+> Hint: you have to configure some environment variables.
 
-And you may be wondering, couldn't this be done altogether in GitHub Actions? 
-Great question! Certainly it could be, if you feel curious, feel free to do some research!
+If you get stuck, check out [this screenshot](server/assets/app-service-configuration.png).
+
+> :bulb: You may be wondering: couldn't this be configured in Terraform?
+> Great question! Certainly it could be. What would be the advantage of that? If you feel curious, feel free to do some research!
+
+## Testing the app
 
 Once the application is successfully deployed, run a test from your client:
 - Can you successfully access the application from the provided URL on Azure?
@@ -90,5 +94,7 @@ It'd be good for your understanding to research this a bit more as well! This wi
 - [HTTP Headers: Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
 - [Environment variables overview](https://docs.microsoft.com/en-us/powerapps/maker/data-platform/environmentvariables)
 - [Azure: Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
+- [Azure: Configure an App Service app](https://docs.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal)
+- [Azure: Configure a custom container for Azure App Service - Configure environment variables](https://docs.microsoft.com/en-us/azure/app-service/configure-custom-container?pivots=container-linux#configure-environment-variables)
 - [Azure App Service plan overview](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans)
 - [Deploy a custom container to App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-container-github-action?tabs=publish-profile)
