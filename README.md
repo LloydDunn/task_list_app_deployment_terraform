@@ -25,7 +25,7 @@ You will deploy this application on Azure and share it with our friends! Feel fr
 
 ## System diagrams
 
-Below, you fill find some diagrams that describe the system you have been asked to build in a bit more detail.
+Below you have been provided with some diagrams that describe the system you have been asked to build in a bit more detail.
 
 Even so, you'll find that they leave some questions unanswered: some arrows have been left unlabelled and the inner workings of some of the tools involved are not explained. The missing bits are for you to research and discover!
 It's a good idea to draw your own diagrams and keep updating them as you learn more.
