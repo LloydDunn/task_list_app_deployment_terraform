@@ -6,7 +6,6 @@ You will deploy this application on Azure and share it with our friends! Feel fr
 
 ## Table of contents
 
-- [Table of contents](#table-of-contents)
 - [System diagrams](#system-diagrams)
   - [Application diagram](#application-diagram)
   - [Deployment process diagram](#deployment-process-diagram)
