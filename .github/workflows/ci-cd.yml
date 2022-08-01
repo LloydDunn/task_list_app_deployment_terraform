@@ -8,13 +8,13 @@ on:
     branches:
       - main
 
-env:
-  NODE_ENV: test
-
 jobs:
   buildAndTest:
     name: CI Pipeline
     runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: test
 
     services:
       postgres:
@@ -54,6 +54,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: buildAndTest
 
+    env:
+      AZURE_WEB_APP_NAME: placeholder-web-app
+
     steps:
       - uses: actions/checkout@v2
 
@@ -75,6 +78,5 @@ jobs:
       - name: 'Deploy to Web App'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'group1-appservice'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: 'group1containerregistry.azurecr.io/tasklistingapp:${{ github.sha }}'
+          app-name: ${{ env.AZURE_WEB_APP_NAME }}
+          images: '${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}'

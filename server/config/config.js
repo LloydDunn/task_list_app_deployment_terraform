@@ -22,9 +22,10 @@ module.exports = {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
-      options: {
-        encrypt: true,
-      },
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
     },
     operatorsAliases: false,
   },

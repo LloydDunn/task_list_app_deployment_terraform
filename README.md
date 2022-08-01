@@ -1,100 +1,229 @@
-# task-listing-app
+# Deploying a task-listing app using the Azure Web App service
 
 This is a [monorepo](https://github.com/joelparkerhenderson/monorepo_vs_polyrepo) that contains an Angular application at *root* level and also an Express application under `/server`.
 
 You will deploy this application on Azure and share it with our friends! Feel free to make any code changes you want, but remember that should not be the focus for this week :relaxed:
 
-## Application Architecture
+## System diagrams
 
-![Task Listing App Architecture](server/assets/task-listing-app-architecture.jpg?raw=true "Task Listing App Architecture")
+Below, you fill find some diagrams that describe the system you have been asked to build in a bit more detail.
 
-## Tasks
+Even so, you'll find that they leave some questions unanswered: some arrows have been left unlabelled and the inner workings of some of the tools involved are not explained. The missing bits are for you to research and discover!
+It's a good idea to draw your own diagrams and keep updating them as you learn more.
 
-Feel free to break down and manage the tasks in any way and order you find convenient for you as a group and for this project. You could, for example, create a project board on your GitHub forked repository.
+### Application diagram
 
-### GitHub Action Workflows
+This is a diagram showing the application architecture once deployed.
+It shows a three-tier architecture composed of:
+- a webapp running on the Azure Web App service,
+- a Postgres database hosted on Azure.
 
-The `buildAndTest` job (CI) under `.github/workflows/ci-cd.yml` should work out of the blue. However, the `deploy` (CD) job won't work as is, why is that?
+```mermaid
+graph LR
+    subgraph Task-listing app architecture
+      User --> AWA(Task Listing App running <br> on <br> Azure Web App)
+      AWA --> DB[(Azure Postgres <br> Database)]
+    end
+```
 
-## And what's next?
+### Deployment process diagram
 
-First of all, congratulations for going through all of the previous tasks and completing them. Amazing job!
+This diagram gives a high-level overview of the deployment pipeline you are being tasked with building in this project:
 
-Now, with all of our resources created on Azure through Terraform, it's time to test our existing CI/CD workflow for the application living in this repository:
+1. The code for the app is hosted on GitHub.
+2. A GitHub Actions workflow should publish a Docker image containing the task-listing app to the Azure Container Registry.
+3. Once published to the registry, the Docker image should be deployed to the Azure Web App service, which will run the app as a container and make it available on the Internet.
 
-- :pencil2: Discuss in your group: are you able to explain what is happening on the `Dockerfile`?
+```mermaid
+graph LR
+    subgraph Task-listing app deployment pipeline
+      GitHub(GitHub repo)--> CICD(GitHub Actions)
+      CICD --> ACR(Azure Container Registry)
+      ACR --> AWA(Azure Web App) 
+    end
+```
 
-- Can you deploy the application on your existing Azure infrastructure using the existing CI/CD flow? Observe the `secrets` appearing on the `ci-cd.yml` file on the repository. Your will need to find which `secrets` you need to configure on your repository settings :bulb: Perhaps you need to use the outcome you stored when you created your `Azure Service Plan`. This way you will be able to login into Azure from your CD job.
+## Getting Started
 
-- The next step will be to make sure your App Service can authenticate against the private registry you created on Azure, so it can pull the image you built and you can access the application:
+To get started, take some time to familiarise yourself with this codebase.
 
-To achieve this, you will need to enable `Admin Access` on your Container Registry service. How can you configure the `secrets` accordingly so that these match the authentication details that should appear now on the Container Registry? Take a look at the CD job more closely.
+Are you able to:
 
-One more step related to this! Your Web App Service (not only the Service Plan on GitHub Actions) also needs to access ACR and run some Docker commands under the hood. How does it know which details to use?
+1. Explain what you think each line in the [`Dockerfile`][Dockerfile] is doing?  
+  Discuss this in your group.
+2. Get the app to run locally on your machine using the provided `Dockerfile`?  
+  This will help you refresh your memory of how to work with dockerised applications.
+  It can also be useful if you want to for test out commands before you try them in the Cloud.
+3. Explain what you think the `buildAndTest` job CI job in the provided GitHub Actions workflow (`.github/workflows/ci-cd.yml`) is doing?
 
-There are a couple of resources linked below that may help you figure out how to configure this in the Azure Portal.
+> **Note**: The `buildAndTest` GitHub Actions job should work without changes, but the `deploy` job won't out of the box. Part of your tasks in this project will be to figure out why and get it to work.
 
-> Hint: you have to configure some environment variables.
+## Deploy the app 
 
-If you get stuck, check out [this screenshot](server/assets/app-service-configuration.png).
+In order to successfully deploy this app, you'll have to get the deployment process working as it is described in the above diagram.
 
-> :bulb: You may be wondering: couldn't this be configured in Terraform?
-> Great question! Certainly it could be. What would be the advantage of that? If you feel curious, feel free to do some research!
+As mentioned above, the provided GitHub Actions workflow isn't completely functional, you will need to find out what is missing and make it run successfully.
 
-## Testing the app
+<details>
+<summary>If you get stuck, click here for a hint.</summary>
 
-Once the application is successfully deployed, run a test from your client:
-- Can you successfully access the application from the provided URL on Azure?
+> Consider the lines containing the string `secrets.` or `env.` in the `ci-cd.yml` file.
+> You will need to provide certain values to the workflow so that the machine running the CD job can login into Azure on your behalf, push the Docker image to the Azure Container Registry, and deploy to the Azure Web App.
+>
+> Let yourself be guided by the error messages in the GitHub Actions job output!
+> When in doubt about how to configure a GitHub Action, it's also always a good idea to look up the documentation for the action in question, e.g. [azure/docker-login@v1](https://github.com/Azure/docker-login).
+</details>
 
-- Any issues querying the database from the web app? Can you connect to it? How does your deployed web app know about the database connection details? You may also need to take a look at the `Connection security` settings under your Azure Database for PostgreSQL server.
+## Testing the deployed app
 
- Finally, how could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? You may find some useful information on the `server logs`. Can you spot how to access these?
+### Acceptance criteria
 
- To test all this, once your application is deployed, you can open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`, what's the response you're getting? The aim is to get a `200`. Feel free to create some tasks and to delete those that you do not want on the board any longer!
+You will know you've successfully deployed the application when your task listing app allows the following actions to be taken without errors:
 
-## Other important things to consider
+- loading the app in the browser
+- adding new tasks
+- viewing new tasks on the dashboard (at `/dashboard`)
+- deleting tasks from the dashboard
 
-### App Service
 
-#### Environment variables
-As you can see, in `/server/config/config.js` there are some environment variables that need to be set for the application to function correctly.
-- Thinking about deploying our application on Azure. Where should these live?
+### Does the app load?
 
-#### 503 HTTP Response: Application Error
-- What does a `503 HTTP Response` mean? It'd be a good idea to expand your knowledge on [HTTP status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status). You can use this reference article whenever you find a new status code you haven't come across before!
+If Azure Web App successfully started running your app, you should see a page like this:
 
-More specifically, regarding a 503 error on your Azure App Service, there's a good [reference article from Azure](https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-http-502-http-503) worth going through.
+![The deployed task-listing app](assets/deployed-app.png?raw=true)
 
-#### Where to find application logs
-From the article shared just above, is there anything that you found useful?
 
-A really useful resource for debugging Web Applications in Azure is the `Kudu Debug Console`, quickly visited on the reference article shared above.
+Most likely though, you'll encounter some problems.
+For example, you might see a page with a message like this one instead:
 
-After you've successfully landed on the Kudu Console view for your app, there's a bunch of information in there, but we're mostly interested in the `Current Docker logs` (we have containerised our application after all!). Now, there are some things we need to find out more about:
-- What is the `_docker.log` file? What sort of information can we extract from it?
-- And what about the `_default_docker.log` file?
+```
+:( Application Error
+If you are the application administrator, you can access the diagnostic resources.
+```
 
-As a hint, remember that before we're able to launch the application successfully and see what happens inside the container, our `Azure App Service` should be able to pull the image from our `Container Registry`.
+Your job now is to get behind more visibility on this problem and try to understand what's going wrong.
+Once you think you can understand what the problem is, try to fix it and test the app again.
 
-You should have all of the information that you need in these two files and within your Azure database `server logs`. However, if you have any questions, please check with your peers or ask your coach eventually!
+### Debugging in the Cloud
 
-You got this! :star2:
+Here are a few troubleshooting questions that are always good to ask yourself when debugging a system with many components that have to work together:
 
-### Database
+- Does each component know how to access the other components it needs to access? If not, what information does it need to access these components?
+- Does each components of the system have the credentials/permissions it needs to access the other components it needs to access?
 
-Whart sort of resources can connect to your database on Azure at the moment?
-- Is it none by default? 
-- Only other Azure resources? 
+Revisit the [application and deployment diagrams](#system-diagrams) to help you with this.
 
-It'd be good for your understanding to research this a bit more as well! This will be useful especially if you'd like to connect to the Azure database from your preferred GUI (`TablePlus` for instance).
-- How can you open connections from external resources if you find out you can't connect to it? We may have to jump over those :bricks:
+Getting the app to run might take several iterations and some research!
+
+<details>
+<summary>Unsure how to get visibility?</summary>
+
+> Finding out how to get access to the Azure Web App's logs would be a good place to start.
+> Check out the resources below to help you with that.
+</details>
+
+<details>
+<summary>Unsure how to pass credentials around?</summary>
+
+> A common way to pass credentials to an application is through **environment variables**.
+> Check out some of the resources at the end of this page for further pointers.
+</details>
+
+### Interlude: Let's not forget about Infrastructure as Code!
+
+To get your app to run, you may have ended up configuring a bunch of stuff manually through the Azure Portal.
+
+That's okay, but this week's main objective is learning to use Infrastructure as Code! 
+We want to keep as much configuration as possible in Terraform to help us document how our system works and allows us version control changes we make.
+
+Before moving on, take some time to research how you might be able to configure the same things through Terraform instead.
+
+It may not always obvious from the available documentation, so do ask your coach for some pointers.
+
+<details>
+<summary>Click here for some Terraform hints.</summary>
+
+ > For Azure Web Appps, environment variables and logging can be configured using Terraform using the `app_settings` and `logs` parameters of the `azurerm_linux_web_app` resource, respectively.
+</details>
+
+### Can a user successfully add and delete tasks?
+
+Once you can successfully view the app in the browser, the next step is to check whether its functionality works.
+
+Your goal is to make adding new tasks to the list of tasks work successfully. 
+It probably won't work out of the box!
+
+What might be going wrong? 
+Like in the previous step, try to get visibility on the problem, try to understand what's going wrong, then try to fix it.
+
+<details>
+<summary>Unsure where to look?</summary>
+
+> The Chrome DevTools are a good place to start.
+> - What kind of request(s) are made when you try to create a new task? 
+> - Do they complete successfully?
+> - If not, what can you find out more about the meaning of the response status code?
+> - What can you find in the application logs?
+</details>
+
+#### Understanding what's going wrong
+
+Here are those questions from [the previous section on debugging in the Cloud](#debugging-in-the-cloud) again:
+
+- Does each component know how to access the other components it needs to communicate with? If not, what information does it need to access these components?
+- Does each components of the system have the credentials/permissions it needs to access the other components it needs to communicate with?
+
+Refer back to the [deployment process diagram](#deployment-process-diagram) and as always, let yourself be guided by the error messages you find in the logs!
+
+<details>
+<summary>Unsure where to start?</summary>
+
+> Referring back to the deployment process diagram shows us that:
+> - the Azure Web App needs to be able to retrieve container images from the Azure Container Registry,
+> - the Azure Web App needs read and write access to the Postgres database.
+>
+> Does your Azure Web App have the necessary connection information and credentials to do so?
+> Check out the resources below.
+>
+> The `server/config/config.js` file in this repo should also provide some additional pointers to at least one of the two issues above. Once you've fixed these issues, there may be others, but this should help get you started. 
+</details>
+
+#### Adding tasks
+
+Once you've established a means for the different components to talk to each other, you may run into a new problem when trying to add a task.
+Here's an additional question one to guide you as you troubleshoot: Is your database set up to have new data inserted into it? If not, what's missing?
+
+Check out the logs again! 
+
+<details>
+<summary>Stuck?</summary>
+
+> Remember that we typically need to run **migrations** to make sure a database is set up correctly before the app starts to run.
+> Can you find a way to make migrations run whenever the Docker container is run? 
+> It will help your understanding and be easier to troubleshoot if you try to get this working locally first. 
+>
+> :warning: Getting this to work involves making use of a Dockerfile feature that you won't have encountered before, so expect this to take some trial and erorr, as well as research. Do reach out and ask for help from a coach if you need it.
+</details>
+
+## A closing note
+
+You've successfully deployed a dockerised app to Azure using Terraform and GitHub actions, well done!
+
+> **Note**: Running migrations automatically as suggested in this project is not always appropriate in a production application, but it's okay for our purposes on this course.
+> If you're curious about why running migrations automatically as part of the app deployment can be dangerous, check out [this blog post](https://withatwist.dev/backward-compatible-database-migrations.html).
+> And [this blog post](https://benchling.engineering/move-fast-and-migrate-things-how-we-automated-migrations-in-postgres-d60aba0fc3d4?) is a nice illustration of what it takes to make automatic migrations safe(r).
+
+![Task listing app dashboard showing successfully created tasks](assets/deployed-app-success.png?raw=true)
+
+
 
 ## Resources
 
-- [HTTP Headers: Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
-- [Environment variables overview](https://docs.microsoft.com/en-us/powerapps/maker/data-platform/environmentvariables)
 - [Azure: Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
+- [Enable diagnostics logging for apps in Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-diagnostic-logs)
 - [Azure: Configure an App Service app](https://docs.microsoft.com/en-us/azure/app-service/configure-common?tabs=portal)
 - [Azure: Configure a custom container for Azure App Service - Configure environment variables](https://docs.microsoft.com/en-us/azure/app-service/configure-custom-container?pivots=container-linux#configure-environment-variables)
-- [Azure App Service plan overview](https://docs.microsoft.com/en-us/azure/app-service/overview-hosting-plans)
-- [Deploy a custom container to App Service using GitHub Actions](https://docs.microsoft.com/en-us/azure/app-service/deploy-container-github-action?tabs=publish-profile)
+- [Azure: Environment variables and app settings in Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/reference-app-settings?tabs=kudu%2Cdotnet#custom-containers)
+- [HTTP Headers: Access-Control-Allow-Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+- [Troubleshoot HTTP errors of "502 bad gateway" and "503 service unavailable" in Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-http-502-http-50)
+
