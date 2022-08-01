@@ -4,6 +4,26 @@ This is a [monorepo](https://github.com/joelparkerhenderson/monorepo_vs_polyrepo
 
 You will deploy this application on Azure and share it with our friends! Feel free to make any code changes you want, but remember that should not be the focus for this week :relaxed:
 
+## Table of contents
+
+- [Table of contents](#table-of-contents)
+- [System diagrams](#system-diagrams)
+  - [Application diagram](#application-diagram)
+  - [Deployment process diagram](#deployment-process-diagram)
+- [Getting Started](#getting-started)
+- [Deploy the app](#deploy-the-app)
+- [Testing the deployed app](#testing-the-deployed-app)
+  - [Acceptance criteria](#acceptance-criteria)
+  - [Does the app load?](#does-the-app-load)
+  - [Debugging in the Cloud](#debugging-in-the-cloud)
+  - [Interlude: Let's not forget about Infrastructure as Code!](#interlude-lets-not-forget-about-infrastructure-as-code)
+  - [Can a user successfully add and delete tasks?](#can-a-user-successfully-add-and-delete-tasks)
+    - [Understanding what's going wrong](#understanding-whats-going-wrong)
+    - [Adding tasks](#adding-tasks)
+- [A closing note](#a-closing-note)
+- [Resources](#resources)
+
+
 ## System diagrams
 
 Below, you fill find some diagrams that describe the system you have been asked to build in a bit more detail.
