@@ -68,7 +68,7 @@ To get started, take some time to familiarise yourself with this codebase.
 
 Are you able to:
 
-1. Explain what you think each line in the [`Dockerfile`][./Dockerfile] is doing?  
+1. Explain what you think each line in the [`Dockerfile`](./Dockerfile) is doing?  
   Discuss this in your group.
 2. Get the app to run locally on your machine using the provided `Dockerfile`?  
   This will help you refresh your memory of how to work with dockerised applications.
