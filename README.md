@@ -153,7 +153,7 @@ Getting the app to run might take several iterations and some research!
 To get your app to run, you may have ended up configuring a bunch of stuff manually through the Azure Portal.
 
 That's okay, but this week's main objective is learning to use Infrastructure as Code! 
-We want to keep as much configuration as possible in Terraform to help us document how our system works and allows us version control changes we make.
+We want to keep as much configuration as possible in Terraform to allow us to version control and code review any changes we make.
 
 Before moving on, take some time to research how you might be able to configure the same things through Terraform instead.
 
