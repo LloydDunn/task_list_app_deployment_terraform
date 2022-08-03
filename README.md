@@ -1,8 +1,10 @@
 # Deploying a task-listing app using the Azure Web App service
 
 This is a [monorepo](https://github.com/joelparkerhenderson/monorepo_vs_polyrepo) that contains an Angular application at *root* level and also an Express application under `/server`.
+You will be deploying this application to Azure.
 
-You will deploy this application on Azure and share it with our friends! Feel free to make any code changes you want, but remember that should not be the focus for this week :relaxed:
+> **Note** If you haven't finished [creating all of your infrastructure using Terraform](https://github.com/makersacademy/devops-course/tree/main/terraform-and-azure#section-1-terraform), go back and do that first. 
+> This is a prerequisite to the tasks that follow.
 
 ## Table of contents
 
