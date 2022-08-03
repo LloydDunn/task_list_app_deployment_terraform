@@ -1,4 +1,4 @@
-# Deploying a task-listing app using the Azure Web App service
+# Deploying a containerised application using the Azure Web App service
 
 This is a [monorepo](https://github.com/joelparkerhenderson/monorepo_vs_polyrepo) that contains an Angular application at *root* level and also an Express application under `/server`.
 You will be deploying this application to Azure.
