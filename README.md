@@ -13,7 +13,7 @@ You will be deploying this application to Azure.
   - [Deployment process diagram](#deployment-process-diagram)
 - [Getting Started](#getting-started)
 - [Deploy the app](#deploy-the-app)
-- [Testing the deployed app](#testing-the-deployed-app)
+- [Test the deployed app](#test-the-deployed-app)
   - [Acceptance criteria](#acceptance-criteria)
   - [Does the app load?](#does-the-app-load)
   - [Debugging in the Cloud](#debugging-in-the-cloud)
@@ -72,9 +72,9 @@ Are you able to:
 
 1. Explain what you think each line in the [`Dockerfile`](./Dockerfile) is doing?  
   Discuss this in your group.
-2. Get the app to run locally on your machine using the provided `Dockerfile`?  
+2. Get the app to run locally on your machine using the provided `Dockerfile`? The information in [server/config/config.js](./server/config/config.js) will help with this.
   This will help you refresh your memory of how to work with dockerised applications.
-  It can also be useful if you want to for test out commands before you try them in the Cloud.
+  It can also be useful if you want to for test something before you try it in the Cloud.
 3. Explain what you think the `buildAndTest` job CI job in the provided GitHub Actions workflow (`.github/workflows/ci-cd.yml`) is doing?
 
 > **Note**: The `buildAndTest` GitHub Actions job should work without changes, but the `deploy` job won't out of the box. Part of your tasks in this project will be to figure out why and get it to work.
@@ -95,7 +95,7 @@ As mentioned above, the provided GitHub Actions workflow isn't completely functi
 > When in doubt about how to configure a GitHub Action, it's also always a good idea to look up the documentation for the action in question, e.g. [azure/docker-login@v1](https://github.com/Azure/docker-login).
 </details>
 
-## Testing the deployed app
+## Test the deployed app
 
 ### Acceptance criteria
 
@@ -212,7 +212,7 @@ Refer back to the [deployment process diagram](#deployment-process-diagram) and 
 #### Adding tasks
 
 Once you've established a means for the different components to talk to each other, you may run into a new problem when trying to add a task.
-Here's an additional question one to guide you as you troubleshoot: Is your database set up to have new data inserted into it? If not, what's missing?
+Here's an additional question to guide you as you troubleshoot: Is your database set up to have new data inserted into it? If not, what's missing?
 
 Check out the logs again! 
 
