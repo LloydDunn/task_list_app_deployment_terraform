@@ -32,7 +32,7 @@ First of all, congratulations for going through all of the previous tasks and co
 
 Now, with all of our resources created on AWS through Terraform, it's time to test our existing CI/CD workflow for the application living in this repository:
 
-- :pencil2: Discuss in your group: are you able to explain what is happening on the `Dockerfile`?
+- :pencil2: Discuss in your group: are you able to explain what is happening in the `Dockerfile`?
 
 - Can you deploy the application on your existing AWS infrastructure using the existing CI/CD flow? Observe the [variables](https://docs.gitlab.com/ee/ci/variables/) appearing on the `ci-cd.yml` file on the repository. You will need to figure out what to set these variables to.
 
@@ -42,30 +42,82 @@ Now, with all of our resources created on AWS through Terraform, it's time to te
 
 If you're having trouble with getting deployment to work, check out some of the tips at the end of this doc.
 
-## Test the app manually
+## Test the app manually and get it to load
 
-Once the application is successfully deployed, run a test from your client:
+Once the application is deployed, run a test from your client:
 
-- Can you successfully access the application from the provided URL on AWS?
-- Any issues querying the database from the web app? Can you connect to it?
-- Does your deployed web app actually have a way of knowing about the database connection details right now?
+- Can you successfully access the application from the provided URL on AWS? Does it load?
+- Can you view tasks and create new tasks? 
 
+If not, how might you find out what's going on?
 
-### Getting visibility 
+Before trying to fix anything, try and formulate the root cause for the bug as a team:
 
-How could you gain visibility if something goes unexpectedly wrong when trying to access some information within the database? 
+> The task listing app running on Elastic Beanstalk is not loading 
+> ... because the request to X is failing
+> ... which is failing because Y is failing
+> ... which is failing because Z is failing 
+> ...
+
+Keep asking why and tightening the loop around the bug until you get to the underlying reason. 
+You will know you've got the underlying reason because finding it will reveal what is missing from your configuration. 
+
+Once you're really clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
+
+There is a [Tips](#a-few-tips) section as well as some hints below if you get stuck!
 
 <details>
-<summary> :thinking_face: <b>Open me once you've brainstormed some ideas</b></summary>
+<summary> :thinking_face: <b>Open me once you've tested your app and tried investigating any bugs you encountered.</b></summary>
 
-You could open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for a request named `tasks`. What's the response you're getting?
+If the app isn't loading or some of its functionality doesn't seem to work, open the **Network** tab under your browser DevTools, navigate to `/dashboard` and search for any failed requests.
+
+You may see that a request named `tasks` is failing. What's the response you're getting?
 The aim is to get a `200` response but that's probably not what's happening right now.
+You may find some useful information about what's going wrong in the Elastic Beanstalk **server logs**.
 
-You may also find some useful information in the `server logs` ...
+Spend some time trying to understand what you find in the logs. Check out the [Tips](#a-few-tips) section below for some help with finding the right logs.
 
+If you get stuck trying to understand what the logs mean, check out the next hint below for some more pointers.
 </details>
 
-The next section has some more useful pointers.
+<details>
+<summary> :thinking_face: <b>Open me once you've brainstormed some ideas about what might be causing the bugs</b></summary>
+
+The task listing app distributed across (is made up of) two main components:
+  - A server running on Elastic Beanstalk
+  - A database running on AWS RDS
+When encountering errors in a distributed system, it's always a good idea to check whether the different components of the system are actually able to connect to each other.
+
+In that spirit:
+
+- Does your deployed web app actually have any way of knowing about the database connection details right now?
+- Is your app able to query the database?
+
+Try and see if you can spot any errors that point at database connection or database querying issues.
+
+There is indeed some stuff missing from our configuration to get that working.
+Before trying to fix it, try and formulate the root cause for the bug as a team as well as what you think is missing to fix it. 
+
+Here is an example of what you might say:
+
+> The task listing app running on Elastic Beanstalk is not loading   
+>   ... because the GET request to `/tasks` fails with a 5xx error
+
+> The request fails 
+>   ... because the app server fails to start
+
+> The app server fails to start 
+    ... because it can't connect to the AWS RDS database, which it tries to do in this file ... at this line ...
+
+> The task listing app is unable to connect to the database because ...
+
+>  In order to connect to the database, the app needs to be provided the following credentials ... via ...
+
+Once you're really clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
+</details>
+
+###
+You may find that after fixing the initial root cause, new problems are revealed.
 
 ## A few tips
 
@@ -86,8 +138,7 @@ If you're working on getting Elastic Beanstalk to successfully deploy your Docke
 
 Or, if you've already deployed it but you found problems when testing it manually, can you spot which ones contain relevant information to help you debug your webapp?
 
-<details>
-<summary> :thinking_face: <b>Click here for some hints</b></summary>
+### Finding the right logs
 
 Use the [Elastic Beanstalk docs on logging](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.logging.html) to help you figure out which logs contain which information.
 
@@ -95,31 +146,22 @@ In particular, have a look at the `eb-engine.log` file and the log files under `
 
 What sort of information can we extract from them? Which parts of the system emit these logs?
 
-</details>
-
 You should have all of the information that you need in the application log files.
 However, if you have any questions, please check with your peers or ask your coach eventually!
 
 You got this! :star2:
 
-### Issues connecting to the database
+### How the app connects to the database
 
-If you've deployed the app and tried creating tasks, you've probably run into some 5xx errors. Perhaps you also noticed in the application logs that the app is having problems connecting to the database.
-
-> :warning: If you haven't, stop reading and try and spot these errors for yourself!
-
-There is indeed some stuff missing from our configuration to get that working.
-Now would be a good time to get back to your Trello board and have a look at the remaining tasks.
+At startup, the task-listing app server tries to establish a connection to the database using the [Sequelize](https://sequelize.org/) library (an ORM for JavaScript). This is done in [`server/models/index.js`]("server/models/index.js) using the `Sequelize` class.
 
 #### Environment variables
 
-Perhaps you've noticed this by looking at the files: there are some environment variables that need to be set for the application to function correctly. 
-
-You'll find them in `server/config/config.js`.
+Perhaps you've noticed this by looking at the file above: there are some environment variables that need to be set for the application to function correctly. You'll find them in [`server/config/config.js`]("server/config/config.js").
 
 Keeping in mind that the main topic of the week is "Infrastructure as code", where should the values of these ideally be configured?
 
-#### Initial migration
+### Initial migration
 
 Once you've managed to connect to the database, you might run into a new problem to solve.
 
@@ -129,7 +171,9 @@ Your database is empty initially and is therefore missing the table(s) that the 
 
 What options do you have for running the initial migration on your database?
 
-The `./server/package.json` file can help you come up with the command you need to run to do this.
+The [`./server/package.json`]("./server/package.json") file can help you come up with the command you need to run to do this.
+
+> ℹ️ The `package.json` file is the heart of any Node project. Aside from other metaata it allows developers of the project to define commands for running installing dependencies, running scripts, and running the app.
 
 <details>
 <summary> :thinking_face: <b>Click here for the answer</b></summary>
@@ -145,10 +189,15 @@ We omit the `NODE_ENV=test` because we want to run this in production.
 
 </details>
 
-
-So we have the command. But where should you run it?
+So we have the command. But where (on which machine) should you run it?
 
 **Hint**: There was a reason you were asked to add an SSH key pair to your Elastic Beanstalk environment ... You can find the instances Elastic Beanstalk creates on your behalf in the EC2 Console.
+
+#### Better ways to run migrations
+
+You might be thinking now that this is not a great way to run migrations -- after all, you had to do it manually!
+
+That's true, it's not great. Migrations are often the hardest part to automate safely and the topic is beyond the scope of this week. That said, feel free to bring this topic up with your coach if you're interested in exploring it further!
 
 ## Resources
 
