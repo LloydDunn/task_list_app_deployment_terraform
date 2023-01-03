@@ -19,12 +19,10 @@ graph LR
 ```
 
 You may want to take some time here to formulate some questions for things to find out more about. 
-"How" and "why" questions in particular are good places to start.
+"How" and "why" questions in particular are good places to start. For example:
 
 - What is an Elastic Container Registry? Why are we using it?
 - How will Elastic Beanstalk make use of the S3 bucket?
-
-The CI-CD 
 
 
 ## Tasks
@@ -39,14 +37,14 @@ Feel free to break down and manage the tasks below in any way and order you find
 
 2. Review what you know about Docker as a group: are you able to explain what is happening in the `Dockerfile`? What is a container registry? Why do you think we are using one in this deployment pipeline?
 
-3. Check out the `.gitlab-ci.yml` script. Can you map which parts ofthe `push` and `deploy` jobs correspond to which arrows on the diagram above? You may want to draw a new, more detailed diagram.
+3. Check out the [`.gitlab-ci.yml`](.gitlab-ci.yml) script. Can you map which parts ofthe `push` and `deploy` jobs correspond to which arrows on the diagram above? You may want to draw a new, more detailed diagram.
 
 
 ## Deploy the app
 
 Now, with all of our resources created on AWS through Terraform, it's time to test the existing CI/CD pipeline for the application living in this repository. 
 
-The `buildAndTest` job (CI) under `.gitlab-ci.yml` should work out of the blue.
+The `buildAndTest` job (CI) in `.gitlab-ci.yml` should work out of the blue.
 
 However, the `push` and `deploy` (CD) jobs won't work as they are.
 Why is that? Can you map the different parts of these jobs onto the diagram and pinpoint where the issues are?
@@ -73,7 +71,7 @@ Before trying to fix anything, try and formulate the root cause for the bug as a
 > ... because the request to X is failing
 >
 > ... which is failing because Y is failing
-
+>
 > ... which is failing because Z is failing 
 >
 > ... etc
@@ -131,7 +129,9 @@ Here is an example of what you might say:
 >
 > ... because it can't connect to the AWS RDS database, which it tries to do in this file ... at this line ...
 >
-> The task listing app is unable to connect to the database because ...
+> The task listing app is unable to connect to the database 
+> 
+> ... because ...
 >
 > In order to connect to the database, the app needs to be provided the following credentials ... via ...
 
