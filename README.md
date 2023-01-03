@@ -18,7 +18,7 @@ graph LR
     EB --> DB[(Amazon RDS)]
 ```
 
-You may want to take some time here to formulate some questions for things to find out more about. 
+You may want to take some time here to formulate some questions for things to find out more about and/or to keep in mind as you work through this project.
 "How" and "why" questions in particular are good places to start. For example:
 
 - What is an Elastic Container Registry? Why are we using it?
@@ -131,9 +131,9 @@ Here is an example of what you might say:
 >
 > The task listing app is unable to connect to the database 
 > 
-> ... because ...
+> ... because it doesn't have the correct credentials
 >
-> In order to connect to the database, the app needs to be provided the following credentials ... via ...
+> In order to connect to the database, the app needs to be provided X via Y.
 
 Once you're really clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
 </details>
