@@ -1,10 +1,12 @@
-# task-listing-app
+# Task Listing App on AWS
 
 This is a [monorepo](https://github.com/joelparkerhenderson/monorepo_vs_polyrepo) that contains an Angular application at *root* level and also an Express application under `/server`.
 
-You will deploy this application on AWS and share it with our friends! Feel free to make any code changes you want, but remember that should not be the focus for this week :relaxed:
+## The goal
 
-## Application Architecture
+You will deploy this application as a container onto the AWS infrastructure you created using Terraform. The `/server` directory includes a Dockerfile which you can use for this purpose.
+
+### Application Architecture
 
 ```mermaid
 graph LR
@@ -16,31 +18,44 @@ graph LR
     EB --> DB[(Amazon RDS)]
 ```
 
+You may want to take some time here to formulate some questions for things to find out more about. 
+"How" and "why" questions in particular are good places to start.
+
+- What is an Elastic Container Registry? Why are we using it?
+- How will Elastic Beanstalk make use of the S3 bucket?
+
+The CI-CD 
+
 
 ## Tasks
 
-Feel free to break down and manage the tasks in any way and order you find convenient for you as a group and for this project. You could, for example, create a project board on your GitLab forked repository.
+First of all, congratulations for going through all of the Terraform tasks tasks and completing them. Amazing job!
 
-### GitHub Action Workflows
+Feel free to break down and manage the tasks below in any way and order you find convenient for you as a group and for this project. You could, for example, create a project board on your GitLab forked repository.
+
+## Find your way around the app
+
+1. If you're not used to working with web applications in JavaScript, [check out this high-level introduction to the topic](https://gitlab.com/makers-students/devops-course/-/blob/main/pills/intro_javascript_webapps.md). It explains some of the main tools and libraries that are common to JavaScript webapps and how these tools work together. This will make it easier to navigate the codebase.
+
+2. Review what you know about Docker as a group: are you able to explain what is happening in the `Dockerfile`? What is a container registry? Why do you think we are using one in this deployment pipeline?
+
+3. Check out the `.gitlab-ci.yml` script. Can you map which parts ofthe `push` and `deploy` jobs correspond to which arrows on the diagram above? You may want to draw a new, more detailed diagram.
+
+
+## Deploy the app
+
+Now, with all of our resources created on AWS through Terraform, it's time to test the existing CI/CD pipeline for the application living in this repository. 
 
 The `buildAndTest` job (CI) under `.gitlab-ci.yml` should work out of the blue.
-However, the `push` and `deploy` (CD) jobs won't work as they are, why is that?
 
-## And what's next?
+However, the `push` and `deploy` (CD) jobs won't work as they are.
+Why is that? Can you map the different parts of these jobs onto the diagram and pinpoint where the issues are?
 
-First of all, congratulations for going through all of the previous tasks and completing them. Amazing job!
+- Note the [variables](https://docs.gitlab.com/ee/ci/variables/) appearing on the `.gitlab-ci.yml` file. You will need to figure out what to set these variables to.
 
-Now, with all of our resources created on AWS through Terraform, it's time to test our existing CI/CD workflow for the application living in this repository:
+- Are there any other missing credentials you might have to provide to your pipeline in order to get it to work? 
 
-- :pencil2: Discuss in your group: are you able to explain what is happening in the `Dockerfile`?
-
-- Can you deploy the application on your existing AWS infrastructure using the existing CI/CD flow? Observe the [variables](https://docs.gitlab.com/ee/ci/variables/) appearing on the `ci-cd.yml` file on the repository. You will need to figure out what to set these variables to.
-
-- Are there any other missing credentials you might have to provide to your pipeline in order to get it to work?
-
-:question: Check your understanding. Can you spot which line in the CI-CD pipeline grants GitLab access to push to your private container registry?
-
-If you're having trouble with getting deployment to work, check out some of the tips at the end of this doc.
+It's always a good idea to check the architecture diagram - an arrow between two components often implies that some credentials might be necessary to make that connection work. For example, can you spot which line in the CI-CD pipeline grants GitLab access to push to your private container registry?
 
 ## Test the app manually and get it to load
 
@@ -54,15 +69,19 @@ If not, how might you find out what's going on?
 Before trying to fix anything, try and formulate the root cause for the bug as a team:
 
 > The task listing app running on Elastic Beanstalk is not loading 
+>
 > ... because the request to X is failing
+>
 > ... which is failing because Y is failing
+
 > ... which is failing because Z is failing 
-> ...
+>
+> ... etc
 
 Keep asking why and tightening the loop around the bug until you get to the underlying reason. 
 You will know you've got the underlying reason because finding it will reveal what is missing from your configuration. 
 
-Once you're really clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
+Once you feel clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
 
 There is a [Tips](#a-few-tips) section as well as some hints below if you get stuck!
 
@@ -86,6 +105,7 @@ If you get stuck trying to understand what the logs mean, check out the next hin
 The task listing app distributed across (is made up of) two main components:
   - A server running on Elastic Beanstalk
   - A database running on AWS RDS
+
 When encountering errors in a distributed system, it's always a good idea to check whether the different components of the system are actually able to connect to each other.
 
 In that spirit:
@@ -95,23 +115,25 @@ In that spirit:
 
 Try and see if you can spot any errors that point at database connection or database querying issues.
 
-There is indeed some stuff missing from our configuration to get that working.
-Before trying to fix it, try and formulate the root cause for the bug as a team as well as what you think is missing to fix it. 
+Before trying to fix anything, try and formulate the root cause for the bug as a team as well as what you think is missing to fix it. 
 
 Here is an example of what you might say:
 
 > The task listing app running on Elastic Beanstalk is not loading   
+>
 >   ... because the GET request to `/tasks` fails with a 5xx error
-
+>
 > The request fails 
+>
 >   ... because the app server fails to start
-
+>
 > The app server fails to start 
-    ... because it can't connect to the AWS RDS database, which it tries to do in this file ... at this line ...
-
+>
+> ... because it can't connect to the AWS RDS database, which it tries to do in this file ... at this line ...
+>
 > The task listing app is unable to connect to the database because ...
-
->  In order to connect to the database, the app needs to be provided the following credentials ... via ...
+>
+> In order to connect to the database, the app needs to be provided the following credentials ... via ...
 
 Once you're really clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
 </details>
@@ -173,7 +195,6 @@ What options do you have for running the initial migration on your database?
 
 The [`./server/package.json`]("./server/package.json") file can help you come up with the command you need to run to do this.
 
-> ℹ️ The `package.json` file is the heart of any Node project. Aside from other metaata it allows developers of the project to define commands for running installing dependencies, running scripts, and running the app.
 
 <details>
 <summary> :thinking_face: <b>Click here for the answer</b></summary>
@@ -195,7 +216,7 @@ So we have the command. But where (on which machine) should you run it?
 
 #### Better ways to run migrations
 
-You might be thinking now that this is not a great way to run migrations -- after all, you had to do it manually!
+You might be thinking now that this is not a great way to run migrations - after all, you had to do it manually!
 
 That's true, it's not great. Migrations are often the hardest part to automate safely and the topic is beyond the scope of this week. That said, feel free to bring this topic up with your coach if you're interested in exploring it further!
 
