@@ -224,9 +224,9 @@ There was a reason you were asked to add an SSH key pair to your Elastic Beansta
 
 #### Better ways to run migrations
 
-You might be thinking now that this is not a great way to run migration, Aater all, you had to do it manually!
+You might be thinking now that this is not a great way to run migrations. After all, you had to do it manually!
 
-That's true, it's not great (why not?). Migrations are often the hardest part to automate safely and the topic is beyond the scope of this week. That said, feel free to bring this topic up with your coach if you're interested in exploring it further!
+That's true, it's not great (why not? what problems could it cause in the future?). Migrations are often the hardest part to automate safely and the topic is beyond the scope of this week. That said, feel free to bring this topic up with your coach if you're interested in exploring it further!
 
 ## Resources
 
