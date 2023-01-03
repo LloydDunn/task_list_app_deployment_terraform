@@ -70,9 +70,13 @@ Before trying to fix anything, try and formulate the root cause for the bug as a
 >
 > ... because the request to X is failing
 >
-> ... which is failing because Y is failing
+> The request to X is failing
 >
-> ... which is failing because Z is failing 
+> ... because Y is failing
+>
+> Y is failing 
+>
+> ... because Z is failing 
 >
 > ... etc
 
@@ -82,6 +86,12 @@ You will know you've got the underlying reason because finding it will reveal wh
 Once you feel clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
 
 There is a [Tips](#a-few-tips) section as well as some hints below if you get stuck!
+
+Keep it mind that you may find that after fixing the root cause of the initial, new problems are revealed. The debugging process remains the same and the tips and hints will still be relevant. 
+
+Keep going until all the featuers of the task listing app work but keep in mind: the learning lies in following the process and what you discover about the system by debugging it and not so much in getting to the end result. 
+
+So don't worry if you don't get everything working by the end of the week. Rather, focus on [building a good understanding of how the components of system you're building work together](https://itrevolution.com/articles/the-three-ways-principles-underpinning-devops/).
 
 <details>
 <summary> :thinking_face: <b>Open me once you've tested your app and tried investigating any bugs you encountered.</b></summary>
@@ -133,13 +143,11 @@ Here is an example of what you might say:
 > 
 > ... because it doesn't have the correct credentials
 >
-> In order to connect to the database, the app needs to be provided X via Y.
+> In order to connect to the database, the app needs to be provided ... via ...
 
 Once you're really clear about what you think is going wrong, get back to your Trello board and have a look at the remaining tasks.
 </details>
 
-###
-You may find that after fixing the initial root cause, new problems are revealed.
 
 ## A few tips
 
