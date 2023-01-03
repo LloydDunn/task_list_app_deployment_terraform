@@ -88,9 +88,7 @@ Once you feel clear about what you think is going wrong, get back to your Trello
 There is a [Tips](#a-few-tips) section as well as some hints below if you get stuck!
 
 Keep it mind that you may find that after fixing the root cause of the initial, new problems are revealed. The debugging process remains the same and the tips and hints will still be relevant. 
-
 Keep going until all the featuers of the task listing app work but keep in mind: the learning lies in following the process and what you discover about the system by debugging it and not so much in getting to the end result. 
-
 So don't worry if you don't get everything working by the end of the week. Rather, focus on [building a good understanding of how the components of system you're building work together](https://itrevolution.com/articles/the-three-ways-principles-underpinning-devops/).
 
 <details>
@@ -183,11 +181,11 @@ You got this! :star2:
 
 ### How the app connects to the database
 
-At startup, the task-listing app server tries to establish a connection to the database using the [Sequelize](https://sequelize.org/) library (an ORM for JavaScript). This is done in [`server/models/index.js`]("server/models/index.js) using the `Sequelize` class.
+At startup, the task-listing app server tries to establish a connection to the database using the [Sequelize](https://sequelize.org/) library (an ORM for JavaScript). This is done in [`server/models/index.js`](server/models/index.js) using the `Sequelize` class.
 
 #### Environment variables
 
-Perhaps you've noticed this by looking at the file above: there are some environment variables that need to be set for the application to function correctly. You'll find them in [`server/config/config.js`]("server/config/config.js").
+Perhaps you've noticed this by looking at the file above: there are some environment variables that need to be set for the application to function correctly. You'll find them in [`server/config/config.js`](server/config/config.js).
 
 Keeping in mind that the main topic of the week is "Infrastructure as code", where should the values of these ideally be configured?
 
@@ -219,14 +217,16 @@ We omit the `NODE_ENV=test` because we want to run this in production.
 </details>
 
 So we have the command. But where (on which machine) should you run it?
+There was a reason you were asked to add an SSH key pair to your Elastic Beanstalk environment ... You can find the instances Elastic Beanstalk creates on your behalf in the EC2 Console. 
 
-**Hint**: There was a reason you were asked to add an SSH key pair to your Elastic Beanstalk environment ... You can find the instances Elastic Beanstalk creates on your behalf in the EC2 Console.
+**Hint**: Remember that your app is running as a Docker container!
+
 
 #### Better ways to run migrations
 
-You might be thinking now that this is not a great way to run migrations - after all, you had to do it manually!
+You might be thinking now that this is not a great way to run migration, Aater all, you had to do it manually!
 
-That's true, it's not great. Migrations are often the hardest part to automate safely and the topic is beyond the scope of this week. That said, feel free to bring this topic up with your coach if you're interested in exploring it further!
+That's true, it's not great (why not?). Migrations are often the hardest part to automate safely and the topic is beyond the scope of this week. That said, feel free to bring this topic up with your coach if you're interested in exploring it further!
 
 ## Resources
 
