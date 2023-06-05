@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -7,14 +7,14 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      'Tasks',
+      "Tasks",
       [
         {
-          title: 'Example task to pair on',
-          description: 'random description for example task',
-          techStack: 'Node and React',
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          title: "Example task to pair on",
+          description: "random description for example task",
+          tech_stack: "Node and React",
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       ],
       {}
@@ -26,6 +26,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete('Tasks', null, {});
+    return queryInterface.bulkDelete("Tasks", null, {});
   },
 };

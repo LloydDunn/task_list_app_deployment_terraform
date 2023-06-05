@@ -1,30 +1,30 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TaskDialogCreateComponent } from './task-dialog-create.component';
-import { FormBuilder } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TaskService } from 'src/app/services/task/task.service';
-import { of } from 'rxjs';
+import { TaskDialogCreateComponent } from "./task-dialog-create.component";
+import { FormBuilder } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { TaskService } from "src/app/services/task/task.service";
+import { of } from "rxjs";
 
-describe('TaskDialogCreateComponent', () => {
+describe("TaskDialogCreateComponent", () => {
   let component: TaskDialogCreateComponent;
   let fixture: ComponentFixture<TaskDialogCreateComponent>;
 
   const mockDialogRef = {
-    close: jasmine.createSpy('close'),
+    close: jasmine.createSpy("close"),
   };
 
   const mockTaskService = {
-    createTask: jasmine.createSpy('createTask'),
+    createTask: jasmine.createSpy("createTask"),
   };
 
   const fbMock: FormBuilder = new FormBuilder();
 
   const formVal = {
-    title: 'mockTitle',
-    description: 'mockDesc',
-    techStack: 'mockTech',
+    title: "mockTitle",
+    description: "mockDesc",
+    tech_stack: "mockTech",
   };
 
   beforeEach(async(() => {
@@ -45,19 +45,19 @@ describe('TaskDialogCreateComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('#close func should close dialogRef', () => {
+  it("#close func should close dialogRef", () => {
     component.close();
 
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  it('#save should call dialogRef.close and taskService.createTask with form val', () => {
+  it("#save should call dialogRef.close and taskService.createTask with form val", () => {
     component.form = fbMock.group(formVal);
-    mockTaskService.createTask.and.returnValue(of('Task created!'));
+    mockTaskService.createTask.and.returnValue(of("Task created!"));
 
     component.save();
 

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { TaskService } from 'src/app/services/task/task.service';
+import { Component, OnInit } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
+import { TaskService } from "src/app/services/task/task.service";
 
 @Component({
-  selector: 'app-task-dialog-create',
-  templateUrl: './task-dialog-create.component.html',
-  styleUrls: ['./task-dialog-create.component.scss'],
+  selector: "app-task-dialog-create",
+  templateUrl: "./task-dialog-create.component.html",
+  styleUrls: ["./task-dialog-create.component.scss"],
 })
 export class TaskDialogCreateComponent implements OnInit {
   form: FormGroup;
@@ -21,7 +21,7 @@ export class TaskDialogCreateComponent implements OnInit {
     this.form = this.fb.group({
       title: new FormControl(),
       description: new FormControl(),
-      techStack: new FormControl(),
+      tech_stack: new FormControl(),
     });
   }
 
