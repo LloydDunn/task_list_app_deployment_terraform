@@ -7,7 +7,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
     */
     return queryInterface.bulkInsert(
-      "Tasks",
+      "tasks",
       [
         {
           title: "Example task to pair on",
@@ -26,6 +26,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete("Tasks", null, {});
+    return queryInterface.bulkDelete("tasks", null, {});
   },
 };

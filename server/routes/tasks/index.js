@@ -2,11 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 
-const { task } = require("../../models");
+const { tasks: Task } = require("../../models");
 
 module.exports = () => {
   router.post("", async (req, res) => {
-    const newTask = new task();
+    const newTask = new Task();
     newTask.title = req.body.title;
     newTask.description = req.body.description;
     newTask.tech_stack = req.body.tech_stack;
@@ -24,7 +24,7 @@ module.exports = () => {
     let tasks;
 
     try {
-      tasks = await task.findAll();
+      tasks = await Task.findAll();
     } catch (e) {
       throw e;
     }
@@ -34,7 +34,7 @@ module.exports = () => {
 
   router.delete("/:id", async (req, res) => {
     try {
-      await task.destroy({ where: { id: req.params.id } });
+      await Task.destroy({ where: { id: req.params.id } });
     } catch (e) {
       throw e;
     }
