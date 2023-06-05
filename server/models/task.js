@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Task = sequelize.define(
+  const task = sequelize.define(
     "Task",
     {
       title: DataTypes.STRING,
@@ -10,8 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       timestamps: true,
       underscored: true,
-      freezeTableName: true,
     }
   );
-  return Task;
+  return task;
 };
