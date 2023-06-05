@@ -1,13 +1,16 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
   const Task = sequelize.define(
-    'Task',
+    "tasks",
     {
       title: DataTypes.STRING,
       description: DataTypes.STRING,
-      techStack: DataTypes.STRING,
+      tech_stack: DataTypes.STRING,
     },
-    {}
+    {
+      timestamps: true,
+      underscored: true,
+    }
   );
   return Task;
 };
