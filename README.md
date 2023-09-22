@@ -1,6 +1,7 @@
 # Task Listing App on AWS
 
 This is a [monorepo](https://github.com/joelparkerhenderson/monorepo_vs_polyrepo) that contains an Angular application at *root* level and also an Express application under `/server`.
+You will be deploying this application to Azure.
 
 ## The goal
 
@@ -25,19 +26,18 @@ You may want to take some time here to formulate some questions for things to fi
 - How will Elastic Beanstalk make use of the S3 bucket?
 
 
-## Tasks
 
 First of all, congratulations for going through all of the Terraform tasks tasks and completing them. Amazing job!
 
-Feel free to break down and manage the tasks below in any way and order you find convenient for you as a group and for this project. You could, for example, create a project board on your GitLab forked repository.
+Feel free to break down and manage the tasks below in any way and order you find convenient for you as a group and for this project. You could, for example, create a project board on your GitLab / Github forked repository.
 
 ## Find your way around the app
 
-1. If you're not used to working with web applications in JavaScript, [check out this high-level introduction to the topic](https://gitlab.com/makers-students/devops-course/-/blob/main/pills/intro_javascript_webapps.md). It explains some of the main tools and libraries that are common to JavaScript webapps and how these tools work together. This will make it easier to navigate the codebase.
+1. If you're not used to working with web applications in JavaScript, [check out this high-level introduction to the topic](https://github.com/makersacademy/devops-course/blob/main/pills/intro_javascript_webapps.md). It explains some of the main tools and libraries that are common to JavaScript webapps and how these tools work together. This will make it easier to navigate the codebase.
 
 2. Review what you know about Docker as a group: are you able to explain what is happening in the `Dockerfile`? What is a container registry? Why do you think we are using one in this deployment pipeline?
 
-3. Check out the [`.gitlab-ci.yml`](.gitlab-ci.yml) script. Can you map which parts ofthe `push` and `deploy` jobs correspond to which arrows on the diagram above? You may want to draw a new, more detailed diagram.
+3. Check out the [`.gitlab-ci.yml`](.gitlab-ci.yml) script (or the `.github` directory if using Github Actions). Can you map which parts ofthe `push` and `deploy` jobs correspond to which arrows on the diagram above? You may want to draw a new, more detailed diagram.
 
 
 ## Deploy the app
@@ -177,7 +177,6 @@ What sort of information can we extract from them? Which parts of the system emi
 You should have all of the information that you need in the application log files.
 However, if you have any questions, please check with your peers or ask your coach eventually!
 
-You got this! :star2:
 
 ### How the app connects to the database
 
