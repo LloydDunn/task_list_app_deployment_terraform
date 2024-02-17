@@ -49,34 +49,62 @@ jobs:
       - name: Run Express Tests
         run: npm --prefix ./server run coverage
 
-  deploy:
-    name: CD Pipeline
+  push:
     runs-on: ubuntu-latest
     needs: buildAndTest
 
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+    
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+    
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: PLACEHOLDER-FOR-YOUR-ECR-REPOSITORY
+          IMAGE_TAG: PLACEHOLDER-FOR-YOUR-APP-IMAGE
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push
     env:
-      AZURE_WEB_APP_NAME: placeholder-web-app
+      CONTAINER_REGISTRY_URL: "placeholder-registry-url"
+      CONTAINER_REPOSITORY_NAME: "placeholder-repo-name"
+      S3_DEPLOY_BUCKET: "placeholder-deploy-bucket"
+      ELASTIC_BEANSTALK_APP_NAME: "placeholder-app-name"
+      ELASTIC_BEANSTALK_ENV_NAME: "placeholder-env-name"
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Copy Dockerrun.aws.json to S3
+        run: |
+          echo "Copying Dockerrun.aws.json to S3"
+          aws s3 cp Dockerrun.aws.json "s3://$S3_DEPLOY_BUCKET"
 
-      - name: 'Build and push image'
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY }}
-          username: ${{ secrets.REGISTRY_SERVER_USERNAME }}
-          password: ${{ secrets.REGISTRY_SERVER_PASSWORD }}
-      - run: |
-          docker build . -t ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}
-
-      - name: 'Deploy to Web App'
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ env.AZURE_WEB_APP_NAME }}
-          images: '${{ secrets.REGISTRY }}/tasklistingapp:${{ github.sha }}'
+      - name: Deploy new application version to Elastic Beanstalk
+        run: |
+          echo "Deploying new application version"
+          aws elasticbeanstalk create-application-version \
+            --application-name "$ELASTIC_BEANSTALK_APP_NAME" \
+            --version-label "$GITHUB_SHA" \
+            --source-bundle S3Bucket="$S3_DEPLOY_BUCKET",S3Key="Dockerrun.aws.json" \
+            --no-auto-create-application
+          aws elasticbeanstalk update-environment \
+            --application-name "$ELASTIC_BEANSTALK_APP_NAME" \
+            --environment-name "$ELASTIC_BEANSTALK_ENV_NAME" \
+            --version-label "$GITHUB_SHA"
