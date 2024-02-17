@@ -6,7 +6,7 @@ cat <<EOF > Dockerrun.aws.json
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "$CONTAINER_REGISTRY_URL/$CONTAINER_REPOSITORY_NAME:$CI_COMMIT_SHA",
+    "Name": "$CONTAINER_REGISTRY_URL/$CONTAINER_REPOSITORY_NAME:$GITHUB_SHA",
     "Update": "true"
   },
   "Ports": [
