@@ -139,7 +139,7 @@ Remember these are stretch goals.
 Rather, focus on [building a good understanding of how the components of system you're building work together](https://itrevolution.com/articles/the-three-ways-principles-underpinning-devops/).
 
 <details>
-<summary> :thinking_face: <b>Open me once you've tested your app and tried investigating any bugs you encountered.</b></summary>
+<summary> :bulb: <b>Open me once you've tested your app and tried investigating any bugs you encountered.</b></summary>
 
 If the app isn't loading or some of its functionality doesn't seem to work, open
 the **Network** tab under your browser DevTools, navigate to `/dashboard` and
@@ -158,7 +158,7 @@ hint below for some more pointers.
 </details>
 
 <details>
-<summary> :thinking_face: <b>Open me once you've brainstormed some ideas about what might be causing the bugs</b></summary>
+<summary> :bulb: <b>Open me once you've brainstormed some ideas about what might be causing the bugs</b></summary>
 
 The task listing app distributed across (is made up of) two main components:
   - A server running on Elastic Beanstalk
@@ -274,7 +274,7 @@ The [`./server/package.json`]("./server/package.json") file can help you come up
 
 
 <details>
-<summary> :thinking_face: <b>Click here for the answer</b></summary>
+<summary> :bulb: <b>Click here for the answer</b></summary>
 
 The `package.json` file has an entry in the `scripts` section that reads:
 
