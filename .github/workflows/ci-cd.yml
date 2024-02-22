@@ -1,9 +1,7 @@
 name: CI/CD
 
 on:
-  push:
-    branches:
-      - main
+  # Choose your workflow strategy!
   pull_request:
     branches:
       - main
@@ -15,21 +13,22 @@ jobs:
 
     env:
       NODE_ENV: test
-
-    services:
-      postgres:
-        image: postgres:alpine
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      DB_HOST: localhost
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
+
+      - name: Set up PostgreSQL
+        uses: Harmon758/postgresql-action@v1
+        with:
+          postgresql version: '13'
+          postgresql db: ${{ env.POSTGRES_DB }}
+          postgresql user: ${{ env.POSTGRES_USER }}
+          postgresql password: ${{ env.POSTGRES_PASSWORD }}
 
       - name: Install Angular dependencies
         run: npm ci
@@ -72,7 +71,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: PLACEHOLDER-FOR-YOUR-ECR-REPOSITORY
-          IMAGE_TAG: PLACEHOLDER-FOR-YOUR-APP-IMAGE
+          IMAGE_TAG: PLACEHOLDER-FOR-YOUR-APP-IMAGE-TAG
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -90,6 +89,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set permissions for create_dockerrun.sh
+        run: chmod +x ./aws/create_dockerrun.sh
+
+      - name: Create Dockerrun.aws.json
+        run: ./create_dockerrun.sh
+        working-directory: ./aws
+        env:
+          CONTAINER_REGISTRY_URL: ${{ env.CONTAINER_REGISTRY_URL }}
+          CONTAINER_REPOSITORY_NAME: ${{ env.CONTAINER_REPOSITORY_NAME }}
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: List contents in the aws directory
+        run: ls -lah ./aws/
 
       - name: Copy Dockerrun.aws.json to S3
         run: |

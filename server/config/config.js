@@ -8,10 +8,10 @@ module.exports = {
     operatorsAliases: false,
   },
   test: {
-    username: 'test',
-    password: 'postgres',
-    database: 'test_db',
-    host: 'postgres',
+    username: process.env.POSTGRES_USER || 'test', // Fallback to 'test' if not set
+    password: process.env.POSTGRES_PASSWORD || 'postgres', // Fallback to 'postgres'
+    database: process.env.POSTGRES_DB || 'test_db', // Fallback to 'test_db'
+    host: process.env.DB_HOST || 'localhost', // Fallback to 'localhost'
     dialect: 'postgres',
     operatorsAliases: false,
   },
