@@ -11,6 +11,7 @@ RUN apk --no-cache add --virtual builds-deps build-base python && \
 
 WORKDIR /usr/src/app
 COPY . .
+RUN chmod +x /usr/src/app/docker-entrypoint.sh
 RUN npm run build:prod
 
 WORKDIR /usr/src/app/server
